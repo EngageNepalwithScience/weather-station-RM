@@ -7,12 +7,17 @@ def get_temperature_measurements():
     print("Engage Nepal with Science")
     print("Weather station V1.0\n")
     print("Please be sure to note today's date, and the current time.\n")
-    print("\tAcquiring data from ground sensor.")
-    # ground temperature from DS18B20
-    g_temp_obj = ground_temp.DS18B20()
-    g_temp = g_temp_obj.read_temp()
-    print("\t\tGround temperature is %0.2f degrees celsius.\n" %g_temp)
-    #print(g_temp)
+    
+    # If the sensor is available, we measure the ground temperature from DS18B20
+    try:
+        g_temp_obj = ground_temp.DS18B20()
+        g_temp = g_temp_obj.read_temp()
+    except:
+        g_temp = 0
+    if g_temp != 0:
+        print("\tAcquiring data from ground sensor.")
+        print("\t\tGround temperature is %0.2f degrees celsius.\n" %g_temp)
+    
     # air temperature from BME280
     print("\tAcquiring data from air sensor, please wait.")
     bme_temp, bme_hum, bme_pres = air_temp.readBME()
